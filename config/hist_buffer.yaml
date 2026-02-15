@@ -1,0 +1,53 @@
+# configuration parsing starts here
+defaults:
+  - experiment: exp # experiment yaml file name in configurations/experiments folder [fixme]
+  - dataset: minecraft_pos # dataset yaml file name in configurations/dataset folder [fixme]
+  - algorithm: hist_buffer # algorithm yaml file name in configurations/algorithm folder [fixme]
+  - model: hist_buffer_dit # model yaml file name in configurations/model folder [fixme]
+
+debug: false # global debug flag will be passed into configuration of experiment, dataset and algorithm
+
+wandb:
+  entity: your_wandb_username # wandb account name / organization name [fixme]
+  project: your_wandb_project_name # wandb project name; if not provided, defaults to root folder name [fixme]
+  mode: offline # set wandb logging to online, offline or dryrun
+
+resume: null # wandb run id to resume logging and loading checkpoint from
+load: null # wandb run id containing checkpoint or a path to a checkpoint file
+
+name: hist_buffer
+
+experiment:
+  seed: 42
+  model_ckpt: null # path to a pre-trained diffusion checkpoint
+  tasks: [training]
+  training:
+    precision: bf16-mixed
+    devices: auto
+    strategy: deepspeed
+    batch_size: 64
+    max_epochs: 3
+    checkpointing:
+      every_n_train_steps: 1000
+  validation:
+    precision: bf16-mixed
+    strategy: deepspeed
+    batch_size: 8
+    limit_batch: 1
+    val_every_n_step: null
+    val_every_n_epoch: 50
+  
+algorithm:
+  n_frames: 20
+  save_video_every_n_step: 2000
+  warmup_steps: 1000
+
+dataset:
+  external_cond_dim: 8
+  train_limit: 1027800
+  n_frames: 134 # sample 10 from buffer (124) plus current window (10)
+  context_length: 10
+  validation_multiplier: 0.5
+
+model:
+  precision: bf16-mixed

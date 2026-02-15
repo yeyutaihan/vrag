@@ -1,0 +1,15 @@
+debug: ${debug} # inherited from configurations/config.yaml
+
+save_dir: data/mc_data
+n_frames: 20 # model window size
+validation_size: 100 # number of videos to use for validation
+h: 360
+w: 640
+data_mean: 0.5
+data_std: 0.5
+action_type: action # action or pos or both
+external_cond_dim: 4 # 0: no external condition, 4: action only or position only, 8: position + action
+context_length: 10
+frame_skip: 1
+validation_multiplier: 4
+fps: 20

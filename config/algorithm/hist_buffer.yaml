@@ -1,0 +1,41 @@
+debug: ${debug} # inherited from configurations/config.yaml
+lr: ${experiment.training.lr}
+
+# dataset-dependent configurations
+x_shape: ${model.observation_shape}
+data_mean: ${dataset.data_mean}
+data_std: ${dataset.data_std}
+external_cond_dim: ${dataset.external_cond_dim}
+context_frames: ${dataset.context_length}
+chunk_size: 1 # -1 for full trajectory diffusion, number to specify diffusion chunk size
+
+n_frames: ${dataset.n_frames}
+frame_skip: ${dataset.frame_skip}
+
+vae_name: oasis
+vae_ckpt: pretrained_models/vit-l-20.safetensors
+scaling_factor: 0.07843137255
+
+# training hyperparameters
+weight_decay: 2e-3
+warmup_steps: 10000
+optimizer_beta: [0.9, 0.99]
+strategy: ${experiment.training.strategy}
+gradient_checkpointing: true
+
+save_video_every_n_step: 3000 # save a video every n train steps
+
+diffusion:
+# training
+  schedule_fn_kwargs: {}
+  snr_clip: 5.0
+  timesteps: 1000
+  cum_snr_decay: 0.96
+  clip_noise: 6.
+  # sampling
+  sampling_timesteps: 40 # fixme, numer of diffusion steps, should be increased
+  stabilization_level: 15
+  predict_v: true
+
+metrics:
+  - none

@@ -1,0 +1,14 @@
+input_h: &h 18
+input_w: &w 32
+patch_size: 2
+in_channels: &c 16
+hidden_size: 1024
+depth: 16
+num_heads: 16
+mlp_ratio: 4.0
+stride: 10
+delta_update: true
+bptt: true
+max_frames: 20
+precision: bf16-mixed
+observation_shape: [*c, *h, *w]
